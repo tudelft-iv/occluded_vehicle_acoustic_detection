@@ -1,0 +1,14 @@
+termcolor==1.1.0
+cython==0.29.21
+matplotlib==3.3.3
+opencv_python==4.1.2.30
+pandas==1.1.2
+numpy==1.18.5
+scipy==1.4.1
+scikit_learn==0.22.1
+pyroomacoustics==0.3.1
+h5py==2.10.0
+pytables==3.6.1
+acoular==20.10
+celluloid==0.2.0
+tqdm==4.55.1
