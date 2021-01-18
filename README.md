@@ -131,7 +131,7 @@ An optional flag ``` --csv [pathToFilterCsv] ``` can and should be used. Without
 
 The classifier path should be the full path to the classifier object file generated or provided in the repository under ```/config/timeHorizonClassifierExcludedTestData.obj```.
 
-The additional flags ```--vis``` and ```--store``` can be used if an on the fly visualization shall be applied or if the overlay videos and plots shall be stored. The flag ```--axis-labels``` will produce labels on the figures as well. The results in form of data are always stored after a successful run of the script under ```/[outputFolder]/ResultTable.obj```.
+The additional flags ```--vis``` and ```--store``` can be used if an on the fly visualization shall be applied or if the overlay videos and plots shall be stored. The flag ```--axis-labels``` will produce labels on the figures as well. The results in form of data are always stored after a successful run of the script under ```/[outputFolder]/ResultTable.obj```. In order to create the overlay videos with stereo sound the ```ffmpeg``` package should be installed on the machine.
 
 If the flag ```--store``` is used it will produce two additional folders in ```[outputFolder]/Plots``` and ```[outputFolder]/VideoOverlays``` in which the videos and figures will be stored. The figures include the average confidences per class and timestep, the normalized absolute classification results per class and timestep and one half of the mean feature vectors per timestep. Each individually plotted per environment and overall. Additionally the total accuracy as defined in the paper is plotted against the visual baseline. 
 

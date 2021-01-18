@@ -20,9 +20,13 @@ class VideoPlayer:
         self.outputOverlayPath = outputPath
         self.labelDict = ['front', 'left', 'none', 'right']
 
-
-        self.showViz = showViz
-        self.store = store
+        if (showViz or store) and not os.path.isfile(os.path.join(inputPath, 'ueye_stereo_vid.mp4')):
+            print('Cannot find video file, turning off visualization and storing for this session!')
+            self.showViz = False
+            self.store = False
+        else:
+            self.showViz = showViz
+            self.store = store
 
         # load the audio data, classifier and define audio feature parameters
         self.sampleRate, self.audioData = wavf.read(os.path.join(self.inputPath, 'out_multi.wav'))
@@ -55,9 +59,6 @@ class VideoPlayer:
             self.scale = 0.6
 
             # load the video and make some checks
-            if not os.path.isfile(os.path.join(inputPath, 'ueye_stereo_vid.mp4')):
-                raise ValueError("Cannot find Video, make sure the Video exists")
-
             self.cap = cv2.VideoCapture(os.path.join(inputPath, 'ueye_stereo_vid.mp4'))
             fpsVideo = int(round(self.cap.get(cv2.CAP_PROP_FPS)))
             self.cap.set(cv2.CAP_PROP_POS_FRAMES, self.fps)
@@ -119,13 +120,13 @@ class VideoPlayer:
             self.colorNone = (0,0,0)
 
         if self.store:
-            # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file. cv2.VideoWriter_fourcc('M','J','P','G'), cv2.VideoWriter_fourcc(*'XVID')
-            self.outputVideoPath = os.path.join(outputPath, 'out_video.avi')
+            # Define the codec and create VideoWriter object.The output is stored in 'out_video.mp4' file, later combined with stereo audio using ffmpeg
+            self.outputVideoPath = os.path.join(outputPath, 'out_video.mp4')
             self.outputStereoPath = os.path.join(outputPath, 'out_stereo.wav')
             self.outputOverlayPath = os.path.join(outputPath, os.path.basename(os.path.normpath(inputPath)) + '.mp4')
 
             wavf.write(self.outputStereoPath, self.sampleRate, self.audioData[self.sampleRate:,[5,25]])
-            self.out = cv2.VideoWriter(self.outputVideoPath, cv2.VideoWriter_fourcc('M','J','P','G'), fps=self.fps, frameSize=(self.newWidth, self.newHeight))
+            self.out = cv2.VideoWriter(self.outputVideoPath, 0x7634706d, fps=self.fps, frameSize=(self.newWidth, self.newHeight))
 
     def loopOverFrames(self):
         printColor = ['blue', 'green', 'white', 'red']
@@ -284,7 +285,6 @@ class VideoPlayer:
         # now draw classification result big on screen
         if resultEstimate == 0:
             # convert doa feature to the actual angle of the detection
-            # TODO: don't use hardcoded range of the feature
             angles = np.linspace(-np.pi / 2, np.pi / 2, 30)
             cur_angle = angles[np.where(feature[30:] == np.max(feature[30:]))]
             x_off = int(np.sin(cur_angle) * self.confidenceWidth)
