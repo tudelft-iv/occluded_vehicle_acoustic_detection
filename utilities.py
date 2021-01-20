@@ -220,8 +220,6 @@ def do_data_augmentation(data_in, res, nsegs):
                 np_con = np.flip(rows[0:res], 0).to_numpy()
             else:
                 np_con = np.concatenate((np_con, np.flip(rows[i*res:(i+1)*res], 0).to_numpy()))   
-                np_con = np.concatenate((np_con, np.flip(rows[i*res:(i+1)*res], 0).to_numpy()))   
-                np_con = np.concatenate((np_con, np.flip(rows[i*res:(i+1)*res], 0).to_numpy()))   
         df_left = df_left.append(pd.DataFrame([np.concatenate((np_con, np.array(['right']), rows[nsegs*res+1:len(rows)]))], columns=columns), ignore_index=True)
         
     # create output data and return
