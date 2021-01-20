@@ -15,7 +15,6 @@ import scipy.io.wavfile as wavf
 import argparse
 import xml.etree.ElementTree as ET
 import pandas as pd
-import tables
 import matplotlib
 
 from PIL import Image, ImageSequence

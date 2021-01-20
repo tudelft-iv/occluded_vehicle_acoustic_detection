@@ -55,8 +55,7 @@ The ```DataLog.csv``` holds information about each recording. The unique ID of t
 
 ## Quick start guide
 
-First download the data set following this [link](https://surfdrive.surf.nl/files/index.php/s/fXj16yPrtb6J8Ah), using the password provided and unpack it in a folder ```[dataFolder]``` of choice. Both, video and audio zip contain the same csv for reference, in case of simple inspection only the video data can be downloaded and unpacked.
-
+First download the dataset following this [link](https://surfdrive.surf.nl/files/index.php/s/fXj16yPrtb6J8Ah), using the password provided (only for reviewers) and unpack it in a folder ```[dataFolder]``` of your choice. We provide the video data in a separate zip to facilitate browsing through the data without running experiments. Both, video and audio zip contain the same csv file for reference.
 For full functionality both zips should be unpacked at the same destination.
 
 In order to reproduce the results of the paper, follow the following steps using the provided, extracted features and a pre-trained classifier:
@@ -64,6 +63,12 @@ In order to reproduce the results of the paper, follow the following steps using
 ```
 git clone https://github.com/tudelft-iv/occluded_vehicle_acoustic_detection.git
 cd occluded_vehicle_acoustic_detection
+
+# Install python libraries (tested with python 3.6.12)
+pip install -r requirements.txt
+
+# reproduce Figure 6a), 7 and 8 (including video visualization)
+python timeHorizonInference.py --input [dataFolder]/ovad_dataset --output [outputFolder] --class ./config/timeHorizonStaticClassifierExcludedTestset.obj --csv ./config/timeHorizonStaticTestset.csv --vis --store --axis-labels
 
 # reproduce Table III (does not require zip file)
 python classificationExpts.py --run_cross_val --locs_list DAB DA DB
@@ -73,9 +78,6 @@ python classficationExpts.py --run_gen --train_locs_list SB --test_locs_list SA
 python classficationExpts.py --run_gen --train_locs_list SA --test_locs_list SB
 python classficationExpts.py --run_gen --train_locs_list DB --test_locs_list DA
 python classficationExpts.py --run_gen --train_locs_list DA --test_locs_list DB
-
-# reproduce Figure 6a), 7 and 8
-python timeHorizonInference.py --input [dataFolder]/ovad_dataset --output [outputFolder] --class ./config/timeHorizonStaticClassifierExcludedTestset.obj --csv ./config/timeHorizonStaticTestset.csv --vis --store --axis-labels
 ```
 
 ## Extracting 1 second samples
@@ -127,13 +129,13 @@ The trained classifier can be saved when the script is run with the options ```-
 
 In order to run the experiment of the time horizon inference, run the script ```timeHorizonInference.py ``` with appropriate flags. For help use the flag ``` --help ```. Required arguments are ``` --input [dataFolder]/ovad_dataset --output [outputFolder] --class [classifierPath]```. The output path can be any of choice, the input path should point to the top level folder of the dataset.
 
-An optional flag ``` --csv [pathToFilterCsv] ``` can and should be used. Without, the entire dataset will be processed. The csv file should at least include a column with ID's that are to be processed in the run. An example and the test set used is provided in ```/config/timeHorizonTestSet.csv```. It should be considered that the inference works with a mixed set of static and dynamic data, however the experiment of comparing with the visual baseline would be meaningless, since there are no visual detections provided in the dynamic environments.
+An optional flag ``` --csv [pathToFilterCsv] ``` can and should be used to specify a test set. Without, the entire dataset will be processed. The csv file should at least include a column with ID's that are to be processed in the run. An example and the test set used is provided in ```/config/timeHorizonTestSet.csv```. It is possible to use a mixed set of static and dynamic data, however comparing with the visual baseline would be meaningless, since there are no visual detections provided in the dynamic environments.
 
 The classifier path should be the full path to the classifier object file generated or provided in the repository under ```/config/timeHorizonClassifierExcludedTestData.obj```.
 
 The additional flags ```--vis``` and ```--store``` can be used if an on the fly visualization shall be applied or if the overlay videos and plots shall be stored. The flag ```--axis-labels``` will produce labels on the figures as well. The results in form of data are always stored after a successful run of the script under ```/[outputFolder]/ResultTable.obj```. In order to create the overlay videos with stereo sound the ```ffmpeg``` package should be installed on the machine.
 
-If the flag ```--store``` is used it will produce two additional folders in ```[outputFolder]/Plots``` and ```[outputFolder]/VideoOverlays``` in which the videos and figures will be stored. The figures include the average confidences per class and timestep, the normalized absolute classification results per class and timestep and one half of the mean feature vectors per timestep. Each individually plotted per environment and overall. Additionally the total accuracy as defined in the paper is plotted against the visual baseline. 
+If the flag ```--store``` is used it will produce two additional folders in ```[outputFolder]/Plots``` and ```[outputFolder]/VideoOverlays``` in which the videos and figures will be stored. The figures include the average confidences per class and timestep, the normalized absolute classification results per class and timestep and one half of the mean feature vectors per timestep. In addition to the overall performance, the figures are further separated per environment. Additionally, the total accuracy as defined in the paper is plotted against the visual baseline. 
 
 In order to redo the plotting after a successful run, the result table can be loaded in directly in a new ```DataHandler``` object by running:
 ```
@@ -149,7 +151,7 @@ An example of the overlay is given below:
 
 ## Beamforming Visualization
 
-Acoustic beamforming is used to create a 2D heatmap that is overlaid over the camera image to visualize the location of sailent sound sources around the Research Vehicle. Beamforming algorithms from [Acoular](http://acoular.org/) framework was used in this implementation. The code to generate the overlaid video is implemented in the ```beamforming.py``` script. To generate overlays:
+Acoustic beamforming is used to create a 2D heatmap that is overlaid over the camera image to visualize the location of sailent sound sources around the Research Vehicle. This implementation uses the [Acoular](http://acoular.org/) framework for beamforming. The code to generate the overlaid video is implemented in the ```beamforming.py``` script. To generate overlays:
 
 ```
 python beamforming.py --input [inputFolder]
