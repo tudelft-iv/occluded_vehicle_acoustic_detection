@@ -426,8 +426,8 @@ class DataHandler:
         axes.set_xlim([np.min(time), np.max(time)])
         axes.set_ylim([0.4, 1])
         if self.axisLabels:
-            axes.set_xlabel('Accuracy in [0, 1]')
-            axes.set_ylabel('time t in [s]')
+            axes.set_xlabel('time t in [s]')
+            axes.set_ylabel('Accuracy in [0, 1]')
             axes.set_title('Visual Baseline Comparison')
         axes.legend(loc='upper left', ncol = 1, prop={'size': 10}) 
         if self.store:
