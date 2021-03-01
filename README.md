@@ -1,5 +1,8 @@
 # Hearing What You Cannot See: Acoustic Vehicle Detection Around Corners 
-Public repository of the paper "Hearing What You Cannot See: Acoustic Vehicle Detection Around Corners" (accepted IEEE Robotics and Automation Letters (RA-L), for 2021, [arxiv](https://arxiv.org/abs/2007.15739))
+Public repository of the paper "Hearing What You Cannot See: Acoustic Vehicle Detection Around Corners" (IEEE Robotics and Automation Letters 2021, see DOI: [10.1109/LRA.2021.3062254](https://doi.org/10.1109/LRA.2021.3062254) and [arxiv](https://arxiv.org/abs/2007.15739)).
+For a short and intuitive introduction of our main ideas and online prediction
+results, we recommend to watch our supplementary video on
+[Youtube: Hearing What You Cannot See](http://www.youtube.com/watch?v=BXkeWf24MLg ).
 
 We present a data-driven acoustic detection method that can detect an
 approaching vehicle before it enters line-of-sight, e.g. while hidden behind a
