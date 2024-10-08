@@ -16,10 +16,10 @@ urban environments with a 56-microphone array mounted on our research vehicle.
 
 ## Dataset
 
+The OVAD dataset provided within the scope of this publication is an audio-visual
+set of real world traffic scenarios.
 
-The dataset provided within the scope of this publication is an audio-visual
-set of real world traffic scenarios. You can download the data here:
-https://surfdrive.surf.nl/files/index.php/s/XRdrcDCHaFQMgJz
+You can  __download the data at [data.4tu.nl](https://data.4tu.nl/datasets/07c5956a-fd5f-411f-9b4e-ffe7eb7dec5f)__.
 
 The data is prepared for download in three separate zip files:
 * `ovad_dataset_audio.zip` (~10GB) - Full 56-channel audio data (WAV-format,
